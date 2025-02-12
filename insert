@@ -1,0 +1,137 @@
+
+<?php
+include 'ConnectionPath.php'; 
+?>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Insert Data</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-image: url('97abe864-42ed-46e4-a0d9-9b7e36c7bd59.jpg'); 
+            background-size: cover; 
+            background-position: center; 
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .form-container {
+            background-color: rgba(255, 255, 255, 0.9); /* Adds a slight transparency */
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+            max-width: 500px;
+            width: 100%;
+        }
+
+        h1 {
+            color: #0056b3;
+            text-align: center;
+        }
+
+        label {
+            font-weight: bold;
+            color: #333;
+        }
+
+        input[type="text"],
+        input[type="date"],
+        input[type="radio"] {
+            width: calc(100% - 20px);
+            padding: 10px;
+            margin: 8px 0;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        input[type="radio"] {
+            width: auto;
+            margin-right: 5px;
+        }
+
+        .button-container {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        button {
+            background-color: #0056b3;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 48%;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background-color: #004099;
+        }
+    </style>
+</head>
+<body>
+
+<div class="form-container">
+    <h1>Enter Your Information</h1>
+
+    <form action="Insert.php" method="POST">
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" required>
+
+        <label for="email">Email:</label>
+        <input type="text" id="email" name="email" required>
+
+        <label for="address">Address:</label>
+        <input type="text" id="address" name="address" required>
+
+        <label for="birthday">Birthday:</label>
+        <input type="date" id="birthday" name="birthday" required>
+
+        <label>Gender:</label><br>
+        <input type="radio" id="male" name="gender" value="Male" required>
+        <label for="male">Male</label>
+        <input type="radio" id="female" name="gender" value="Female" required>
+        <label for="female">Female</label>
+        <input type="radio" id="other" name="gender" value="Other" required>
+        <label for="other">Other</label>
+        <br><br>
+
+        <div class="button-container">
+            <button type="submit" name="submit">Submit</button>
+            <button type="button" onclick="window.location.href='Webpage.php'">Cancel</button>
+        </div>
+    </form>
+
+    <?php
+        if (isset($_POST['submit'])) {
+            $name = $_POST['name'];
+            $email = $_POST['email'];
+            $birthday = $_POST['birthday'];
+            $address = $_POST['address'];
+            $gender = $_POST['gender'];
+
+            $stmt = $conn->prepare("INSERT INTO bayas_table (name, email, birthday, address, gender) VALUES (?, ?, ?, ?, ?)");
+            $stmt->bind_param("sssss", $name, $email, $birthday, $address, $gender);
+
+            if ($stmt->execute()) {
+                echo "<p>Data successfully inserted :)</p>";
+            } else {
+                die("<p>Error: " . $stmt->error . "</p>");
+            }
+        }
+    ?>
+</div>
+
+</body>
+</html>
+Insert.php
+Displaying Insert.php.
