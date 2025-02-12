@@ -1,0 +1,234 @@
+Skip to main content
+Google Classroom
+Classroom
+DCIT 24 - Information Management
+BSCS 2B
+  
+Home
+Calendar
+Enrolled
+To-do
+D
+DCIT 24 - Information Management
+BSCS 2B
+C
+COSC 60 - Digital Logic Design
+BSCS 2B
+C
+COSC 55 - Discrete Structures II
+BSCS 2B
+I
+INSY 50
+BSCS 2B (FIRST SEM | AY 2024-2025)
+M
+MATH 1 - BSCS 2B
+Bachelor of Science in Computer Science 2B
+G
+GNED04-Readings in PH History
+BSCS 2B
+B
+BSCS 2B DCIT 50 - Object Oriented Programming
+BSCS 2B
+W
+WEB SYSTEM AND TRECHNOLOGIES 1
+BSCS I-B (SECOND SEM | AY 2023-2024)
+G
+GNED 01
+BSCS 1B
+D
+DCIT21
+BSCS1B
+Archived classes
+Settings
+Lab Activity 4Lab Activity 4
+Lab Activity 4
+Gabriel Arcega
+•
+Dec 5, 2024 (Edited Feb 7)
+100 points
+Due Dec 19, 2024
+
+DCIT24-LAB_Activity_4.pdf
+PDF
+
+UPDATE SQL Query with PHP & XAMPP
+YouTube video • ‪11 minutes‬
+4 class comments
+
+Luzbert BayasDec 13, 2024
+Bayas,Luzbert P.
+Bravo,Curt Daniel P.
+Duag,Ben James J.
+
+Michael Kenneth CasamaDec 18, 2024
+Casama, Michael Kenneth T.
+Orbillo, Imhan A.
+Mengote, Austine H.
+
+Jhonric BaguisiDec 19, 2024
+Baguisi, Jhonric S.
+Allaraiz, Johnloyd
+Escobar, Railen
+
+Irish RodriguezDec 20, 2024
+Rodriguez, Irish S.
+Gañac, Mike Ivan M.
+
+Add class comment…
+
+Your work
+Turned in
+
+2024-12-13 17-36-55.mkv
+Video
+
+Insert.php
+PHP
+
+Update.php
+PHP
+
+Webpage.php
+PHP
+
+97abe864-42ed-46e4-a0d9-9b7e36c7bd59.jpg
+Image
+Work cannot be turned in after the due date
+Private comments
+<?php
+include "ConnectionPath.php";
+?>
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Data from Bayas Table</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-image: url('97abe864-42ed-46e4-a0d9-9b7e36c7bd59.jpg'); 
+            background-color: #f4f6f8;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1 {
+            color: #0056b3;
+        }
+
+        table {
+            width: 90%;
+            max-width: 1000px;
+            border-collapse: collapse;
+            margin-top: 20px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+            background-color: #fff;
+        }
+
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #0056b3;
+            color: white;
+            font-weight: bold;
+            padding: 12px 15px;
+        }
+
+        td {
+            padding: 12px 15px;
+            text-align: left;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        tr:hover {
+            background-color: #f1f1f1;
+            transition: background-color 0.3s;
+        }
+
+        button {
+            background-color: #0056b3;
+            color: white;
+            padding: 8px 12px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button a {
+            color: white;
+            text-decoration: none;
+        }
+
+        button:hover {
+            background-color: #004099;
+        }
+    </style>
+</head>
+<body>
+    <h1>Data from Bayas Table</h1>
+    <button type="button" onclick="window.location.href='Insert.php'">Register</button>
+
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Birthday</th>
+                <th>Address</th>
+                <th>Gender</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php
+            $sql = "SELECT * FROM bayas_table"; 
+            $stmt = $con->prepare($sql);
+            $stmt->execute();
+            $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            if ($result) {
+                foreach ($result as $col) {
+                    $id = $col["id"];
+                    $name = $col["name"];
+                    $email = $col["email"];
+                    $birthday = $col["birthday"];
+                    $address = $col["address"];
+                    $gender = $col["gender"];
+
+                    echo '<tr>
+                            <th scope="row">' . htmlspecialchars($id) . '</th>
+                            <td>' . htmlspecialchars($name) . '</td>
+                            <td>' . htmlspecialchars($email) . '</td>
+                            <td>' . htmlspecialchars($birthday) . '</td>
+                            <td>' . htmlspecialchars($address) . '</td>
+                            <td>' . htmlspecialchars($gender) . '</td>
+                            <td>
+                                <button>
+                                    <a href="Update.php?updatebyid=' . htmlspecialchars($id) . '">Edit</a>
+                                </button>
+                                <button>
+                                    <a href="Delete.php?deletebyid=' . htmlspecialchars($id) . '">Delete</a>
+                                </button>
+                            </td>
+                          </tr>';
+                }
+            } else {
+                echo '<tr><td colspan="7">No data found</td></tr>';
+            }
+            ?>
+        </tbody>
+    </table>
+</body>
+</html>
+Webpage.php
+Displaying Webpage.php.
