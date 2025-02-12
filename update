@@ -1,0 +1,173 @@
+<?php
+
+include 'ConnectionPath.php';
+
+$userid = $_GET['updatebyid'];
+
+$sql = "SELECT name, email, birthday, address, gender FROM bayas_table WHERE ID = :id";
+$statement = $con->prepare($sql);
+$statement->bindParam(':id', $userid, PDO::PARAM_INT);
+$statement->execute();
+$result = $statement->fetch(PDO::FETCH_ASSOC);
+
+if ($result) {
+    $original_name = $result['name'];
+    $original_email = $result['email'];
+    $original_birthday = $result['birthday'];
+    $original_address = $result['address'];
+    $original_gender = $result['gender'];
+}
+
+if (isset($_POST['updateButton'])) {
+    $name = $_POST['name'];
+    $email = $_POST['email'];
+    $birthday = $_POST['birthday'];
+    $address = $_POST['address'];
+    $gender = $_POST['gender'];
+
+    $sql_update = "UPDATE `bayas_table` SET `name` = :name, `email` = :email, `birthday` = :birthday, `address` = :address, `gender` = :gender WHERE `ID` = :id";
+    $update_statement = $con->prepare($sql_update);
+    $update_statement->bindParam(':name', $name);
+    $update_statement->bindParam(':email', $email);
+    $update_statement->bindParam(':birthday', $birthday);
+    $update_statement->bindParam(':address', $address);
+    $update_statement->bindParam(':gender', $gender);
+    $update_statement->bindParam(':id', $userid, PDO::PARAM_INT);
+    $update_result = $update_statement->execute();
+
+    if ($update_result) {
+        header('location: Webpage.php');
+        exit;
+    } else {
+        echo '<script> alert("Update Not Successful"); </script>';
+    }
+}
+?>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UPDATE A USER PAGE</title>
+    <style>
+        body {
+            background-image: url('97abe864-42ed-46e4-a0d9-9b7e36c7bd59.jpg'); 
+            font-family: Arial, sans-serif;
+            background-color: #f0f8ff;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        #main {
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            width: 100%;
+            max-width: 500px;
+        }
+
+        h1 {
+            color: #0056b3;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .col {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="date"],
+        input[type="radio"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+
+        input[type="radio"] {
+            width: auto;
+        }
+
+        button {
+            background-color: #0056b3;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            display: inline-block;
+            margin-right: 10px;
+        }
+
+        button a {
+            color: white;
+            text-decoration: none;
+        }
+
+        button:hover {
+            background-color: #004099;
+        }
+
+        button a:hover {
+            color: #e0e0e0;
+        }
+
+        .cancel {
+            background-color: #cccccc;
+        }
+
+        .cancel:hover {
+            background-color: #aaaaaa;
+        }
+    </style>
+</head>
+<body>
+    <div id="main">
+        <h1>UPDATE USER FORM</h1>
+        <form action="" method="post">
+            <div class="col">
+                <label for="name">Name:</label>
+                <input type="text" name="name" value="<?php echo htmlspecialchars($original_name); ?>" required>
+            </div>
+            <div class="col">
+                <label for="email">Email:</label>
+                <input type="email" name="email" value="<?php echo htmlspecialchars($original_email); ?>" required>
+            </div>
+            <div class="col">
+                <label for="birthday">Birthday:</label>
+                <input type="date" name="birthday" value="<?php echo htmlspecialchars($original_birthday); ?>" required>
+            </div>
+            <div class="col">
+                <label for="address">Address:</label>
+                <input type="text" name="address" value="<?php echo htmlspecialchars($original_address); ?>" required>
+            </div>
+            <div class="col">
+                <label for="gender">Gender:</label>
+                <input type="radio" name="gender" value="Male" <?php echo $original_gender === 'Male' ? 'checked' : ''; ?>> Male
+                <input type="radio" name="gender" value="Female" <?php echo $original_gender === 'Female' ? 'checked' : ''; ?>> Female
+                <input type="radio" name="gender" value="Other" <?php echo $original_gender === 'Other' ? 'checked' : ''; ?>> Other
+            </div>
+            <button type="submit" name="updateButton">Submit Form</button>
+            <button class="cancel">
+                <a href="webpage.php">Cancel</a>
+            </button>
+        </form>
+    </div>
+</body>
+</html>
